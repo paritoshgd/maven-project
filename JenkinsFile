@@ -1,0 +1,22 @@
+pipeline{
+
+/* any keyword specifies that any node can be used to run the jobs*/
+    agent any 
+    stages{
+
+        stage('Build'){
+            
+            steps{
+
+                sh 'mvn clean package'
+
+            }
+            post{
+                success{
+
+                    archiveArtifacts  artifacts:'**/target/*.war'
+                }
+            }
+        }
+    }
+}
