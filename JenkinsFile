@@ -2,6 +2,11 @@ pipeline{
 
 /* any keyword specifies that any node can be used to run the jobs*/
     agent any 
+
+    tools {
+        maven 'localMaven'
+    }
+
     stages{
 
         stage('Build'){
@@ -13,7 +18,7 @@ pipeline{
             }
             post{
                 success{
-
+                    echo 'Now Archiving'
                     archiveArtifacts  artifacts:'**/target/*.war'
                 }
             }
