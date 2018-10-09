@@ -3,8 +3,8 @@ pipeline{
     agent any
 
     parameters{
-        string(name:'tomcat-stage',defaultValue:'C:\Program Files\Apache Software Foundation\Tomcat 9.0\webapps')
-        string(name:'tomcat-prod',defaultValue:'C:\Program Files\Apache Software Foundation Prod\Tomcat 9.0\webapps')
+        string(name:'tomcat-stage',defaultValue:'C:/Program Files/Apache Software Foundation/Tomcat 9.0/webapps')
+        string(name:'tomcat-prod',defaultValue:'C:/Program Files/Apache Software Foundation Prod/Tomcat 9.0/webapps')
     }
 
     triggers{
