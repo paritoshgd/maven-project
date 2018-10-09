@@ -1,0 +1,54 @@
+pipeline{
+
+    agent any
+
+    parameters{
+        string(name:'tomcat-stage',defaultValue:'C:\Program Files\Apache Software Foundation\Tomcat 9.0\webapps')
+        string(name:'tomcat-prod',defaultValue:'C:\Program Files\Apache Software Foundation Prod\Tomcat 9.0\webapps')
+    }
+
+    triggers{
+        pollSCM('* * * * *')
+    }
+
+    stages{
+
+        stage('Build'){
+
+            steps{
+                echo 'Entering Build Phase'
+                bat 'mvn clean package'
+            }
+
+            post{
+                success{
+                    archiveArtifacts artifacts: '**/target/*.war'
+                }
+            }
+        }
+
+        stage('Deploy'){
+
+            parallel{
+
+                stage('Stage Deployment'){
+                    
+                    steps{
+
+                        echo 'Triggering Stage Deployment'
+                        bat 'copy **/target/*.war $params.tomcat-stage'
+                    }
+                    
+                }
+
+                stage('Prod Deployment'){
+
+                    steps{
+                        echo ' Triggering Prod Deployment'
+                        bat 'copy **/target/*.war $params.tomcat-prod'
+                    }
+                }
+            }
+        }
+    }
+}
